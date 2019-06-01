@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <title>Apresenta Diagnostico</title>
+        <style>
+            @import "css/estiloGeral.css";
+        </style>
+    </h:head>
+    
+    <body>
+        <div class="box_body">
+            
+             <ui:include src="Menu.xhtml" />
+            
+            <h:form id="form">
+                
+                <p:growl id="msgs" showSummary="true" showDetail="true" life="3000" sticky="false"/>
+
+                <h3 style="margin-top:0"></h3>
+                <p:tabView id="Tabela" value="#{ControladorComputador.selectComputador.diaginosticos}" var="item">
+                    
+                    <p:tab title="#{item.data}">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:menuButton value="Opções">
+                                
+                                <p:menuitem value="Alterar" oncomplete="location.href='AlterarDiaginostico.xhtml'">
+                                    <f:setPropertyActionListener value="#{item}" target="#{ControladorDiaginostico.selectDiaginostico}"/>
+                                </p:menuitem>
+                                
+                              
+                            </p:menuButton>
+                            <h:outputText value="#{item.relatorioDiaginostico}" escape="false"/>
+                        </h:panelGrid>
+                    </p:tab>
+                    
+                </p:tabView>
+                
+                <p:confirmDialog id="dial2" closable="false" visible="false"
+                                 message="Deseja Realmente Deletar o Relatório" widgetVar="painel">
+                    <p:commandButton value="sim" action="#{ControladorDiaginostico.deletarDiaginostico(ControladorDiaginostico.selectDiaginostico)}"
+                                     oncomplete="painel.hide(); painel2.show()" update="Tabela"  />
+
+                    <p:commandButton value="Não" oncomplete="painel1.hide()" />
+
+
+                </p:confirmDialog>
+                
+                <p:confirmDialog id="dial3" closable="false" visible="false"
+                                 message="Conselho de classe deletado com secesso" widgetVar="painel2">
+                    <p:commandButton value="ok" oncomplete="painel2.hide()"/>
+
+                </p:confirmDialog>
+                
+
+            </h:form>
+        </div>
+    </body>
+</html>

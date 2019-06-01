@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Alterar Fornecedor</title>
+        <style>
+            @import "css/estiloGeral.css";
+        </style>
+    </h:head>
+    <h:body>
+        <div class="box_body">
+             <ui:include src="Menu.xhtml" />
+
+            <h:form>
+               
+                <p:panel header="Alterar Fornecedor" >
+                    <p:growl autoUpdate="true" rendered="true" id="growalterarFuncionario" life="4000" showSummary="true" showDetail="true"/>
+                    <p:panelGrid columns="2" id="tabelaAlterarUsuario">
+
+                       
+                         <h:outputText value="Nome"/>
+                        <p:inputText id="nome" value="#{ControladorFornecedor.selectFornecedor.nome}" required="true"
+                                     requiredMessage="O campo nome é obrigatório" label="nome"/>
+
+                        <h:outputText value="CNPJ"/>
+                        <p:inputMask id="cnpj" value="#{ControladorFornecedor.selectFornecedor.cnpj}" rendered="true" mask="99.999.999/9999-99"
+                                     requiredMessage="O campo CNPJ é obrigatório"/>
+                        
+                        <h:outputText value="Endereco"/>
+                        <p:inputText id="endereco" value="#{ControladorFornecedor.selectFornecedor.endereco}" required="true"
+                                     requiredMessage="O campo Endereço é obrigatório" />
+
+                        <h:outputText value="Telefone"/>
+                        <p:inputMask id="telefone" value="#{ControladorFornecedor.selectFornecedor.telefone}" rendered="true" mask="(99)99999-9999"
+                                     requiredMessage="O campo Telefone é obrigatório"/>
+
+
+                    </p:panelGrid>
+
+                    <p:commandButton value="Alterar" oncomplete="painel1.show()" update="dialogo1"/>
+                    <p:commandButton value="Cancelar" oncomplete="location.href='ApresentaFornecedor.xhtml'"/>
+
+                </p:panel>
+                <p:confirmDialog id="dialogo1" closable="false" appendToBody="true" 
+                                 visible="false" widgetVar="painel1" message="Deseja realmente alterar #{Fornecedor.nome}">
+
+                    <f:facet name="header">
+                        Atenção
+                    </f:facet>
+
+                    <p:commandButton value="Sim" actionListener="#{ControladorFornecedor.alterarFornecedor(ControladorFornecedor.selectFornecedor)}" 
+                                     oncomplete="painel1.hide(); painel2.show()" update="dialogo2"/>
+                    <p:commandButton value="Não" oncomplete="painel1.hide()"/>
+
+                </p:confirmDialog>
+
+                <p:confirmDialog id="dialogo2" closable="false" appendToBody="true" visible="false"
+                                 widgetVar="painel2" message="O Fornecedor #{Fornecedor.nome} foi alterado com sucesso" >
+
+                    <f:facet name="header">
+                        Obrigado!
+                    </f:facet>
+                    <p:commandButton value="OK" oncomplete="location.href='ApresentaFornecedor.xhtml'"/>
+
+                </p:confirmDialog>
+
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
